@@ -1,0 +1,7 @@
+{
+  "name": "Smart Hospital - Staff Portal",
+  "description": "Hospital Staff Operational Portal for the Smart Hospital Queue & Navigation System. Manage queues, appointments, doctors, patient journeys, and live operations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
