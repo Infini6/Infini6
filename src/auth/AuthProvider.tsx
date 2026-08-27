@@ -30,14 +30,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setToken(parsed.token);
           socketClient.connect(parsed.token, parsed.user.hospitalId);
         }
-      } else {
-        // Default to Hospital Admin for preview ease if not logged in
-        const defaultAdmin = MOCK_STAFF_USERS[0];
-        const defaultToken = "demo-jwt-token-adm9021";
-        setUser(defaultAdmin);
-        setToken(defaultToken);
-        localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify({ user: defaultAdmin, token: defaultToken }));
-        socketClient.connect(defaultToken, defaultAdmin.hospitalId);
       }
     } catch {
       localStorage.removeItem(AUTH_STORAGE_KEY);
@@ -87,22 +79,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const switchUser = useCallback(async (staffId: string) => {
-    const target = MOCK_STAFF_USERS.find((s) => s.id === staffId || s.staffId === staffId) || MOCK_STAFF_USERS[0];
-    const generatedToken = `jwt-switch-${Date.now()}-${target.id}`;
-    setUser(target);
-    setToken(generatedToken);
-    setCurrentHospitalId(target.hospitalId);
-
-    localStorage.setItem(
-      AUTH_STORAGE_KEY,
-      JSON.stringify({ user: target, token: generatedToken })
-    );
-    queryClient.clear();
-    socketClient.disconnect();
-    socketClient.connect(generatedToken, target.hospitalId);
-  }, [queryClient]);
-
   const logout = useCallback(async () => {
     setIsLoading(true);
     try {
@@ -150,7 +126,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         token,
         login,
         logout,
-        switchUser,
         hasPermission,
         hasRole,
         currentHospitalId,

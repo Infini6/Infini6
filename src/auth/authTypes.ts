@@ -20,7 +20,6 @@ export interface AuthContextType {
   token: string | null;
   login: (credentials: LoginCredentials) => Promise<StaffUser>;
   logout: () => Promise<void>;
-  switchUser: (staffId: string) => Promise<void>;
   hasPermission: (permission: Permission) => boolean;
   hasRole: (roles: StaffRole | StaffRole[]) => boolean;
   currentHospitalId: string;
